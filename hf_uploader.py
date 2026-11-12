@@ -436,4 +436,4 @@ class HFUploadOnQueueFinish:
 _start_watcher()
 
 NODE_CLASS_MAPPINGS = {"HFUploadOnQueueFinish": HFUploadOnQueueFinish}
-NODE_DISPLAY_NAME_MAPPINGS = {"HFUploadOnQueueFinish": "HF Upload On Queue Finish (by Tharinda Marasingha)"}
+NODE_DISPLAY_NAME_MAPPINGS = {"HFUploadOnQueueFinish": "HF Upload On Queue Finish"}
