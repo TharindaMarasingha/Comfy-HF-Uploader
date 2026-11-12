@@ -96,6 +96,25 @@ def _notify(msg, level="info"):
         pass
 
 
+def _normalize_repo(repo_id, repo_type):
+    """Accept 'user/repo' or a full Hub URL like
+    https://huggingface.co/datasets/user/repo (also /tree/main/...).
+    Returns (repo_id, repo_type)."""
+    r = repo_id.strip().strip("/")
+    for prefix in ("https://", "http://"):
+        if r.lower().startswith(prefix):
+            r = r[len(prefix):]
+    if r.lower().startswith(("huggingface.co/", "hf.co/")):
+        parts = [p for p in r.split("/")[1:] if p]
+        if parts and parts[0] in ("datasets", "spaces"):
+            repo_type = "dataset" if parts[0] == "datasets" else "space"
+            parts = parts[1:]
+        elif parts and parts[0] == "models":
+            repo_type, parts = "model", parts[1:]
+        r = "/".join(parts[:2])
+    return r, repo_type
+
+
 def _tasks_remaining():
     """Number of prompts running + pending. Returns None if unknown."""
     try:
@@ -374,11 +393,15 @@ class HFUploadOnQueueFinish:
             return ("disabled", None)
 
         folder_list = _parse_folders(folders)
-        repo_id = repo_id.strip()
+        repo_id, repo_type = _normalize_repo(repo_id, repo_type)
         if not folder_list:
             return ("no folders given", None)
-        if not repo_id or "/" not in repo_id:
-            raise ValueError(f"{LOG_PREFIX} repo_id must look like 'username/repo-name'")
+        if not repo_id or repo_id.count("/") != 1:
+            raise ValueError(f"{LOG_PREFIX} repo_id must look like 'username/repo-name' "
+                             f"(or a huggingface.co repo URL)")
+        if "://" in path_in_repo or "huggingface.co" in path_in_repo.lower():
+            raise ValueError(f"{LOG_PREFIX} path_in_repo must be a folder INSIDE the repo "
+                             f"(e.g. 'renders' or empty), not a URL")
 
         job = {
             "folders": folder_list,
