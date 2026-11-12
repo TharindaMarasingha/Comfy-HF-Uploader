@@ -22,7 +22,14 @@ This is especially handy on cloud GPUs (RunPod, Vast.ai, Colab, etc.), where you
 
 ## Installation
 
-### Option 1: ComfyUI Manager
+### Option 0: Comfy Registry (recommended)
+Search for **Comfy-HF-Uploader** in **ComfyUI Manager → Custom Nodes Manager** and click **Install**. You can also use [comfy-cli](https://github.com/Comfy-Org/comfy-cli):
+```bash
+comfy node install comfy-hf-uploader
+```
+Registry page: <https://registry.comfy.org/publishers/tharinda>
+
+### Option 1: ComfyUI Manager (Git URL)
 Open **ComfyUI Manager → Install via Git URL** and paste:
 ```
 https://github.com/TharindaMarasingha/Comfy-HF-Uploader.git
@@ -207,6 +214,10 @@ hf_job["on_finished"](name, fn)  # fn(all_ok: bool, results: list[dict])
 ```
 
 `all_ok` is `True` only when every existing, non-empty folder was uploaded **and** verified.
+
+## License
+
+[MIT](LICENSE) © 2026 Tharinda Marasingha
 
 ## Credits
 

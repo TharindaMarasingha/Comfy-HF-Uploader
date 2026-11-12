@@ -1,13 +1,18 @@
 [project]
 name = "comfy-hf-uploader"
-description = "Zip selected ComfyUI output folders and upload them to a Hugging Face repo automatically when the queue finishes."
+description = "Zip selected ComfyUI output folders and upload them to a Hugging Face repo automatically when the whole queue finishes. Uploads are verified."
 version = "1.0.0"
+license = { file = "LICENSE" }
 authors = [{ name = "Tharinda Marasingha" }]
-dependencies = ["huggingface_hub>=0.20"]
+requires-python = ">=3.9"
+dependencies = ["huggingface_hub>=0.21"]
+classifiers = ["Operating System :: OS Independent"]
 
 [project.urls]
 Repository = "https://github.com/TharindaMarasingha/Comfy-HF-Uploader"
+Documentation = "https://github.com/TharindaMarasingha/Comfy-HF-Uploader#readme"
 "Bug Tracker" = "https://github.com/TharindaMarasingha/Comfy-HF-Uploader/issues"
 
 [tool.comfy]
+PublisherId = "tharinda"
 DisplayName = "Comfy-HF-Uploader"
