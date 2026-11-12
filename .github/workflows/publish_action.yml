@@ -14,6 +14,15 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'TharindaMarasingha' }}
     steps:
+      - name: Check registry token
+        env:
+          TOKEN: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::REGISTRY_ACCESS_TOKEN is empty or not visible to this workflow. Add it under Settings > Secrets and variables > Actions > Repository secrets (not Environment / Codespaces / Dependabot)."
+            exit 1
+          fi
+          echo "::notice::REGISTRY_ACCESS_TOKEN found (length ${#TOKEN})"
       - name: Check out code
         uses: actions/checkout@v4
       - name: Publish Custom Node
