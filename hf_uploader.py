@@ -111,6 +111,8 @@ def _normalize_repo(repo_id, repo_type):
             parts = parts[1:]
         elif parts and parts[0] == "models":
             repo_type, parts = "model", parts[1:]
+        else:
+            repo_type = "model"  # huggingface.co/user/repo is a model repo
         r = "/".join(parts[:2])
     return r, repo_type
 
